@@ -12,11 +12,14 @@ This project is built using Python 3.6 and the xlxswriter library. make sure you
 #### Input files
 The two files that are used to import data are:
 
-##### uniqueWords.txt
-A text file holding one string per line corresponding to a unique word. Encoding must be in [Windows-1252](https://en.wikipedia.org/wiki/Windows-1252).<br/>Example: UniqueWord.
+* ##### uniqueWords.txt
+A text file holding one string per line corresponding to a single unique word. 
+There must be no blank lines and no spaces!
+Encoding must be in [UTF-8](https://en.wikipedia.org/wiki/UTF-8).<br/>Example: UniqueWord.
 
-##### questions.txt
-A text file holding two strings per line delimited by the "$" character. These strings correspond to the text where unique words need to be bolded. Encoding must be in [Windows-1252](https://en.wikipedia.org/wiki/Windows-1252).<br/>Example: Question$Answer.
+* ##### questions.txt
+A text file holding exactly two strings per line delimited by the "$" character. These strings correspond to the text where unique words need to be bolded. There must be no blank lines!
+Encoding must be in [UTF-8](https://en.wikipedia.org/wiki/UTF-8).<br/>Example: Question$Answer.
 
 #### Running the program
 Once the two input files are populated, run the program by running UniqueWordBolder.py.

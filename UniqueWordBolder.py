@@ -7,7 +7,7 @@
 
 # External Imports
 import xlsxwriter # Used to write questions out
-import datetime # Used to name output files
+import re # Used for pattern matching
 
 # Project Imports
 from QuestionList import *
@@ -23,7 +23,7 @@ class UniqueWordBolder:
         uL (UniqueList): Object of type UniqueList.
     """
 
-    def __init__(self, UniqueWordsFileName = "uniquewords.csv", questionFileName = "questions.txt"):
+    def __init__(self, UniqueWordsFileName = "uniqueWords.txt", questionFileName = "questions.txt"):
         """
         The constructor for class UniqueWordBolder.
         """
@@ -53,11 +53,14 @@ class UniqueWordBolder:
     def boldUniqueWords(self, myString, boldFormat):
         result = []
         word = ""
+        match = re.search(r'According\sto.*Chapter', myString, re.IGNORECASE)
+        if match:
+            result.append(myString)
+            return result
         for character in myString:
             if character.isalnum() or character in self.uL.partOfWord:
                 word += character
             elif word and self.uL.isWordUnique(word):
-                    print(word)
                     result.append(boldFormat)
                     result.append(word)
                     result.append(character)

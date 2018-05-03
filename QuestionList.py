@@ -52,13 +52,13 @@ class QuestionList:
             questionFileName (str): The input filename for questions.
         """
 
-        questionFile = open(questionFileName, "r", encoding = 'cp1252')
+        questionFile = open(questionFileName, "r", encoding = 'UTF-8')
 
         # For each line in file, place into proper question object
         for question in questionFile:
             question = question.rstrip()
             fields = question.split("$")
-            if fields[0] == "" or fields[1] == "":
+            if len(fields) < 2:
                 continue
             questionObj = Question(fields[:2])
             self.questionDatabase.append(questionObj)

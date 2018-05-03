@@ -17,7 +17,7 @@ class UniqueList:
     partOfWord = [] # An array to hold any characters that are not a number or letter.
 
 
-    def __init__(self, UniqueWordsFileName = "uniquewords.csv"):
+    def __init__(self, UniqueWordsFileName = "uniqueWords.txt"):
         """
         The constructor for class MaterialList.
 
@@ -35,10 +35,12 @@ class UniqueList:
            UniqueWordsFileName (str): The input filename for Unique Words.
         """
 
-        uniqueWordsFile = open(UniqueWordsFileName, "r", encoding = 'cp1252')
+        uniqueWordsFile = open(UniqueWordsFileName, "r", encoding = 'UTF-8')
 
         for uniqueWord in uniqueWordsFile:
             uniqueWord = uniqueWord.rstrip()
+            if not uniqueWord:
+                continue
             self.uniqueWords.append(uniqueWord)
 
             for character in uniqueWord:
