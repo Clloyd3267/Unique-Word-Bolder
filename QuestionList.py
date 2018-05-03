@@ -1,6 +1,6 @@
 ###################################################################################################
 # Name        : QuestionList.py
-# Author(s)   : Chris Lloyd
+# Author(s)   : Chris Lloyd, Andrew Southwick
 # Description : Classes to store and manage questions
 ###################################################################################################
 
@@ -59,6 +59,7 @@ class QuestionList:
             question = question.rstrip()
             fields = question.split("$")
             if len(fields) < 2:
+                print("Error!!! => empty field!")
                 continue
             questionObj = Question(fields[:2])
             self.questionDatabase.append(questionObj)

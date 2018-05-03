@@ -1,6 +1,6 @@
 ###################################################################################################
 # Name        : UniqueList.py
-# Author(s)   : Chris Lloyd
+# Author(s)   : Chris Lloyd, Andrew Southwick
 # Description : Class to store and manage uniques words
 ###################################################################################################
 

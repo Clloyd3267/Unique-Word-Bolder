@@ -1,6 +1,6 @@
 ###################################################################################################
 # Name        : UniqueWordBolder.py
-# Author(s)   : Chris Lloyd
+# Author(s)   : Chris Lloyd, Andrew Southwick
 # Description : Class to bold unique words
 ###################################################################################################
 
@@ -40,12 +40,13 @@ class UniqueWordBolder:
 
         # Add a bold format object
         bold = workbook.add_format({'bold': True})
+        cell_format1 = workbook.add_format({'font_size': 10, 'text_wrap': 1, 'valign': 'top', 'border': 1})
 
         # Bold all questions
         i = 1
         for question in self.qL.questionDatabase:
-            worksheet.write_rich_string("B" + str(i), *self.boldUniqueWords(question.qFields[1], bold))
-            worksheet.write_rich_string("A" + str(i), *self.boldUniqueWords(question.qFields[0], bold))
+            worksheet.write_rich_string("B" + str(i), *self.boldUniqueWords(question.qFields[1], bold), cell_format1)
+            worksheet.write_rich_string("A" + str(i), *self.boldUniqueWords(question.qFields[0], bold), cell_format1)
             i += 1
 
         workbook.close() # Close workbook

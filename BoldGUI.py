@@ -1,3 +1,9 @@
+###################################################################################################
+# Name        : UniqueWordBolder.py
+# Author(s)   : Chris Lloyd, Andrew Southwick
+# Description : Class to bold unique words
+###################################################################################################
+
 from tkinter import *
 import tkinter as tk
 from tkinter import filedialog, messagebox
@@ -52,7 +58,7 @@ class MainApp(tk.Tk):
         if UniqueFile != '' and QuestionFile != '':
             print(UniqueFile, QuestionFile)
 
-            uList = UniqueWordBolder()
+            uList = UniqueWordBolder(UniqueFile, QuestionFile)
             print("It works, I think...)")
             uList.generateBoldedSpreadsheet()
             print("Does It Still Work?")
