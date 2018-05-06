@@ -36,7 +36,8 @@ class MainApp(tk.Tk):
         QuestionFile = dlg.show()
 
         if QuestionFile != '':
-            Label(self, text=QuestionFile, fg='green').grid(row=0, column=1)
+            Label(self, text='Ready!', fg='green').grid(row=0, column=1)
+
 
 
 
@@ -48,7 +49,7 @@ class MainApp(tk.Tk):
         UniqueFile = dlg.show()
 
         if UniqueFile != '':
-            Label(self, text=UniqueFile, fg='red').grid(row=0, column=3)
+            Label(self, text="Ready!", fg='green').grid(row=0, column=3)
 
     def OnRun(self):
 
@@ -56,12 +57,10 @@ class MainApp(tk.Tk):
         global QuestionFile
 
         if UniqueFile != '' and QuestionFile != '':
-            print(UniqueFile, QuestionFile)
 
             uList = UniqueWordBolder(UniqueFile, QuestionFile)
-            print("It works, I think...)")
             uList.generateBoldedSpreadsheet()
-            print("Does It Still Work?")
+            messagebox.showinfo("Finished!", "Your questions have been bolded!")
         else:
             messagebox.showerror('Error!', "Please upload files")
 
