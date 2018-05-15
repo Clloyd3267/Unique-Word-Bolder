@@ -45,13 +45,24 @@ class UniqueWordBolder:
         # Bold all questions
         i = 1
         for question in self.qL.questionDatabase:
-            worksheet.write_rich_string("B" + str(i), *self.boldUniqueWords(question.qFields[1], bold), cell_format1)
+            print(question.qFields[0])
             worksheet.write_rich_string("A" + str(i), *self.boldUniqueWords(question.qFields[0], bold), cell_format1)
+            worksheet.write_rich_string("B" + str(i), *self.boldUniqueWords(question.qFields[1], bold), cell_format1)
             i += 1
 
         workbook.close() # Close workbook
 
     def boldUniqueWords(self, myString, boldFormat):
+        """
+        Function to bold unique words in a particular string.
+
+        Parameters:
+            myString (str): The input string to be bolded.
+            boldFormat (xlsxwriter format object): The format to be applied to unique words.
+        """
+
+        if myString == "":
+            print(myString)
         result = []
         word = ""
         match = re.search(r'According\sto.*Chapter', myString, re.IGNORECASE)
@@ -61,7 +72,7 @@ class UniqueWordBolder:
         for character in myString:
             if character.isalnum() or character in self.uL.partOfWord:
                 word += character
-            elif word and self.uL.isWordUnique(word):
+            elif self.uL.isWordUnique(word):
                     result.append(boldFormat)
                     result.append(word)
                     result.append(character)
@@ -71,6 +82,13 @@ class UniqueWordBolder:
                     result.append(word)
                 result.append(character)
                 word = ""
+        if word:
+            if self.uL.isWordUnique(word):
+                result.append(boldFormat)
+                result.append(word)
+            else:
+                result.append(word)
+
         return result
 
 
