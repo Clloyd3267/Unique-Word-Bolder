@@ -23,13 +23,18 @@ class UniqueWordBolder:
         uL (UniqueList): Object of type UniqueList.
     """
 
-    def __init__(self, UniqueWordsFileName = "uniqueWords.txt", questionFileName = "questions.txt"):
+    def __init__(self, cols, questionFileName = "questions.xlsx", uniqueWordsFileName = "uniqueWords.xlsx"):
         """
         The constructor for class UniqueWordBolder.
         """
 
         self.qL = QuestionList(questionFileName)  # Create an object of type QuestionList
-        self.uL = UniqueList(UniqueWordsFileName) # Create an object of type UniqueList
+        self.uL = UniqueList(uniqueWordsFileName) # Create an object of type UniqueList
+        self.cols = []
+
+        for col in cols:
+            self.cols.append(ord(col.lower()[0]) - 97)
+
 
     def generateBoldedSpreadsheet(self):
 
@@ -40,14 +45,20 @@ class UniqueWordBolder:
 
         # Add a bold format object
         bold = workbook.add_format({'bold': True})
-        cell_format1 = workbook.add_format({'font_size': 10, 'text_wrap': 1, 'valign': 'top', 'border': 1})
+        cell_format1 = workbook.add_format({'font_size': 11, 'text_wrap': 1, 'valign': 'top', 'border': 1})
 
         # Bold all questions
-        i = 1
+        i = 0
         for question in self.qL.questionDatabase:
-            print(question.qFields[0])
-            worksheet.write_rich_string("A" + str(i), *self.boldUniqueWords(question.qFields[0], bold), cell_format1)
-            worksheet.write_rich_string("B" + str(i), *self.boldUniqueWords(question.qFields[1], bold), cell_format1)
+            j = 0
+            for field in question.qFields:
+                if j in self.cols:
+                    worksheet.set_column(j, j, 50)
+                    worksheet.write_rich_string(i, j, *self.boldUniqueWords(field, bold), cell_format1)
+                else:
+                    worksheet.set_column(j, j, 5)
+                    worksheet.write_string(i, j, field, cell_format1)
+                j += 1
             i += 1
 
         workbook.close() # Close workbook
@@ -93,5 +104,5 @@ class UniqueWordBolder:
 
 
 if __name__ == "__main__":
-    uList = UniqueWordBolder() # Make an object of type UniqueWordBolder
+    uList = UniqueWordBolder(["I", "J"]) # Make an object of type UniqueWordBolder
     uList.generateBoldedSpreadsheet() # Create spreadsheet that has unique words bolded
