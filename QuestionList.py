@@ -4,6 +4,8 @@
 # Description : Classes to store and manage questions
 ###################################################################################################
 
+# External Imports
+import openpyxl # For reading in questions
 
 class Question:
     """
@@ -34,7 +36,7 @@ class QuestionList:
 
     questionDatabase = []  # The array that stores all of the questions
 
-    def __init__(self, questionFileName = "questions.txt"):
+    def __init__(self, questionFileName = "questions.xlsx"):
         """
         The constructor for class Question List.
 
@@ -52,15 +54,18 @@ class QuestionList:
             questionFileName (str): The input filename for questions.
         """
 
-        questionFile = open(questionFileName, "r", encoding = 'UTF-8')
+        book = openpyxl.load_workbook(questionFileName)  # Open the workbook holding the unique words
 
-        # For each line in file, place into proper question object
-        for question in questionFile:
-            question = question.rstrip()
-            fields = question.split("$")
-            if len(fields) < 2:
-                print("Error!!! => empty field!")
-                continue
-            questionObj = Question(fields[:2])
+        sheet = book.active  # Open the active sheet
+        print("A1:", sheet['A1'].value)
+        # Loop through all of the unique words
+        for row in sheet.iter_rows(min_row = 1, min_col = 1):
+            fields = []
+            for cell in row:
+                if cell.value == None:
+                    fields.append("")
+                else:
+                    fields.append(str(cell.value))
+            questionObj = Question(fields)
             self.questionDatabase.append(questionObj)
-        questionFile.close()
+
