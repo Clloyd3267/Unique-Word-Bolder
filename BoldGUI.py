@@ -30,7 +30,7 @@ class MainApp(tk.Tk):
 
 
     def Question(self):
-        ftypes = [('Text files', '*.txt'), ('All files', '*')]
+        ftypes = [('Excel files', '*.xlsx'), ('All files', '*')]
         dlg = filedialog.Open(self, filetypes=ftypes)
         global QuestionFile
         QuestionFile = dlg.show()
@@ -43,7 +43,7 @@ class MainApp(tk.Tk):
 
 
     def UniqueWord(self):
-        ftypes = [('Text files', '*.txt'), ('All files', '*')]
+        ftypes = [('Excel files', '*.xlsx'), ('All files', '*')]
         dlg = filedialog.Open(self, filetypes=ftypes)
         global UniqueFile
         UniqueFile = dlg.show()
@@ -58,8 +58,10 @@ class MainApp(tk.Tk):
 
         if UniqueFile != '' and QuestionFile != '':
 
-            uList = UniqueWordBolder(UniqueFile, QuestionFile)
-            uList.generateBoldedSpreadsheet()
+            uList = UniqueWordBolder(["I", "J"], UniqueFile, QuestionFile)
+            dlg = filedialog.asksaveasfile(initialdir="/", title="Save as",
+                                     filetypes=(("Excel", "*.xlsx"), ("all files", "*.*")))
+            uList.generateBoldedSpreadsheet(Outfilename = dlg.name + ".xlsx")
             messagebox.showinfo("Finished!", "Your questions have been bolded!")
         else:
             messagebox.showerror('Error!', "Please upload files")

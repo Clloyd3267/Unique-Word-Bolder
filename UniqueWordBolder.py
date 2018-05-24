@@ -36,10 +36,11 @@ class UniqueWordBolder:
             self.cols.append(ord(col.lower()[0]) - 97)
 
 
-    def generateBoldedSpreadsheet(self):
+    def generateBoldedSpreadsheet(self, Outfilename):
 
         # Create the workbook
-        Outfilename = "OutQuestions" + ".xlsx"
+        #Outfilename = "OutQuestions" + ".xlsx"
+        print(Outfilename)
         workbook = xlsxwriter.Workbook(Outfilename)
         worksheet = workbook.add_worksheet("Questions")
 
