@@ -4,6 +4,7 @@
 # Description : Class to bold unique words
 ###################################################################################################
 
+import ctypes
 from tkinter import *
 import tkinter as tk
 from tkinter import filedialog, messagebox, simpledialog
@@ -28,17 +29,16 @@ class MainApp(tk.Tk):
         Button(self, text="Bold Words", command=self.OnRun).grid(row=2, column=2, padx=50, pady=20)
 
 
-
     def Question(self):
         ftypes = [('Excel files', '*.xlsx'), ('All files', '*')]
         dlg = filedialog.Open(self, filetypes=ftypes)
-        global QuestionFile
-        QuestionFile = dlg.show()
+        global ZYXQuestionFile
+        ZYXQuestionFile = dlg.show()
         global ZYXColumns
         Col = simpledialog.askstring(title="Columns", prompt="Please input the columns for Q/A", initialvalue= "I,J")
         ZYXColumns = Col.split(',')
 
-        if QuestionFile != '':
+        if ZYXQuestionFile != '':
             Label(self, text='Ready!', fg='green').grid(row=0, column=1)
 
 
@@ -48,34 +48,48 @@ class MainApp(tk.Tk):
     def UniqueWord(self):
         ftypes = [('Excel files', '*.xlsx'), ('All files', '*')]
         dlg = filedialog.Open(self, filetypes=ftypes)
-        global UniqueFile
-        UniqueFile = dlg.show()
+        global ZYXUniqueFile
+        ZYXUniqueFile = dlg.show()
 
-        if UniqueFile != '':
+        if ZYXUniqueFile != '':
             Label(self, text="Ready!", fg='green').grid(row=0, column=3)
 
     def OnRun(self):
 
-        global UniqueFile
-        global QuestionFile
+        global ZYXUniqueFile
+        global ZYXQuestionFile
         global ZYXColumns
 
-        if UniqueFile != '' and QuestionFile != '':
+        if ZYXUniqueFile != '' and ZYXQuestionFile != '':
 
-            uList = UniqueWordBolder(ZYXColumns, QuestionFile, UniqueFile)
-            dlg = filedialog.asksaveasfile(initialdir="/", title="Save as", initialfile = '.txt',
+            uList = UniqueWordBolder(ZYXColumns, ZYXQuestionFile, ZYXUniqueFile)
+            dlg = filedialog.asksaveasfilename(initialdir="/", title="Save as", initialfile = 'BoldedQuestions.xlsx',
                                      filetypes=(("Excel", "*.xlsx"), ("all files", "*.*")))
-            uList.generateBoldedSpreadsheet(Outfilename = dlg.name + ".xlsx")
-            messagebox.showinfo("Finished!", "Your questions have been bolded!")
+            if dlg[-5:] != ".xlsx":
+                Outfilename = dlg + ".xlsx"
+            else:
+                Outfilename = dlg
+            print(Outfilename)
+            uList.generateBoldedSpreadsheet(Outfilename)
+            FileOpen = messagebox.askquestion("Finished!",
+                                          "You file has been bolded! \n Would you like to open it right now?")
+            if FileOpen == "yes":
+                ctypes.windll.ole32.CoInitialize(None)
+                #upath = dlg
+                pidl = ctypes.windll.shell32.ILCreateFromPathW(Outfilename)
+                ctypes.windll.shell32.SHOpenFolderAndSelectItems(pidl, 0, None, 0)
+                ctypes.windll.shell32.ILFree(pidl)
+                ctypes.windll.ole32.CoUninitialize()
+
         else:
             messagebox.showerror('Error!', "Please upload files")
 
 
 def main():
-    global UniqueFile
-    UniqueFile = ""
-    global QuestionFile
-    QuestionFile = ""
+    global ZYXUniqueFile
+    ZYXUniqueFile = ""
+    global ZYXQuestionFile
+    ZYXQuestionFile = ""
     app = MainApp()
     app.minsize(600, 400)
     app.mainloop()
