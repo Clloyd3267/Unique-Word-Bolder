@@ -63,7 +63,7 @@ class MainApp(tk.Tk):
         if UniqueFile != '' and QuestionFile != '':
 
             uList = UniqueWordBolder(ZYXColumns, QuestionFile, UniqueFile)
-            dlg = filedialog.asksaveasfile(initialdir="/", title="Save as", defaultextension = '.txt',
+            dlg = filedialog.asksaveasfile(initialdir="/", title="Save as", initialfile = '.txt',
                                      filetypes=(("Excel", "*.xlsx"), ("all files", "*.*")))
             uList.generateBoldedSpreadsheet(Outfilename = dlg.name + ".xlsx")
             messagebox.showinfo("Finished!", "Your questions have been bolded!")
