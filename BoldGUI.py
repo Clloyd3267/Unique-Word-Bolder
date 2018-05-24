@@ -6,7 +6,7 @@
 
 from tkinter import *
 import tkinter as tk
-from tkinter import filedialog, messagebox
+from tkinter import filedialog, messagebox, simpledialog
 
 from UniqueWordBolder import *
 
@@ -34,6 +34,9 @@ class MainApp(tk.Tk):
         dlg = filedialog.Open(self, filetypes=ftypes)
         global QuestionFile
         QuestionFile = dlg.show()
+        global ZYXColumns
+        Col = simpledialog.askstring(title="Columns", prompt="Please input the columns for Q/A", initialvalue= "I,J")
+        ZYXColumns = Col.split(',')
 
         if QuestionFile != '':
             Label(self, text='Ready!', fg='green').grid(row=0, column=1)
@@ -55,11 +58,12 @@ class MainApp(tk.Tk):
 
         global UniqueFile
         global QuestionFile
+        global ZYXColumns
 
         if UniqueFile != '' and QuestionFile != '':
 
-            uList = UniqueWordBolder(["I", "J"], UniqueFile, QuestionFile)
-            dlg = filedialog.asksaveasfile(initialdir="/", title="Save as",
+            uList = UniqueWordBolder(ZYXColumns, QuestionFile, UniqueFile)
+            dlg = filedialog.asksaveasfile(initialdir="/", title="Save as", defaultextension = '.txt',
                                      filetypes=(("Excel", "*.xlsx"), ("all files", "*.*")))
             uList.generateBoldedSpreadsheet(Outfilename = dlg.name + ".xlsx")
             messagebox.showinfo("Finished!", "Your questions have been bolded!")
